@@ -1,7 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/enviar", "destination": "/api/enviar" },
-    { "source": "/(.*)", "destination": "/public/$1" }
+    { "source": "/enviar", "destination": "/api/enviar" }
   ]
 }
