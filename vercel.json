@@ -1,6 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/enviar", "destination": "/api/enviar" }
+    { "source": "/enviar", "destination": "/api/enviar.js" }
   ]
 }
