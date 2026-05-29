@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargando situación...</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <img class="logo" src="logo.svg" alt="Cargando" style="width: 40px; position: absolute;">
+        
+        <span class="loading-text" style="margin-top: 20px; color: white; font-family: sans-serif;">
+            Validando la información en el sistema de seguridad. Por favor, espere <span id="countdown">20</span> segundos.
+        </span>
+    </div>
+
+    <script>
+        // Cambiado a 20 segundos exactos
+        var countdownTime = 20;
+        var countdownElement = document.getElementById('countdown');
+
+        // Detectar si venimos de un error de token para redireccionar con el mensaje activo
+        <?php if (isset($_GET['origen']) && $_GET['origen'] == 'error'): ?>
+            var destino = 'index2.php?error=1';
+        <?php else: ?>
+            var destino = 'index2.php';
+        <?php endif; ?>
+
+        function updateCountdown() {
+            if (countdownTime > 0) {
+                countdownElement.textContent = countdownTime;
+                countdownTime--;
+            } else {
+                clearInterval(countdownInterval);
+                // Redirigir de manera dinámica según el origen
+                window.location.href = destino;
+            }
+        }
+        var countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
