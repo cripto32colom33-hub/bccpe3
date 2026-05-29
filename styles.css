@@ -1,0 +1,606 @@
+ @font-face {
+            font-family: 'Flexo-Regular';
+            src: url('Flexo-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Flexo-Bold';
+            src: url('Flexo-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Flexo-Demi';
+            src: url('Flexo-Demi.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Flexo-Regular', Helvetica, Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Estilos para el contenedor principal */
+        .loading-container {
+            z-index: 1999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgb(0, 42, 141);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estilos para el círculo animado */
+        .spinner {
+            border: solid 3px #002473;
+            border-top: solid 3px #ff7800;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            animation: girar 1s infinite linear;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para la imagen estática */
+        .logo {
+           width: 32px;
+            height: 32px;
+            position: absolute; /* Posicionar el logo de forma absoluta para que no herede la rotación */
+            top: 1;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Estilos para el texto */
+        .loading-text {
+            color: white;
+            font-size: 14px;
+            font-family: 'Flexo-Regular', Arial, Helvetica, sans-serif;
+        }
+
+        /* Estilos para el contenedor izquierdo */
+        .left-container {
+            width: 33%;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            position: relative;
+            background-image: url('https://loginunico.viabcp.com/assets/img/ciam/bydefault.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo-container {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .logo-container img {
+            width: 90px;
+            margin-bottom: 22px;
+        }
+
+        /* Estilos para el select */
+        select {
+            appearance: none;
+            background: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff7800"%3E%3Cpath d="M7 10l5 5 5-5H7z"/%3E%3C/svg%3E') no-repeat right 10px center;
+            background-size: 12px;
+            padding-right: 30px; /* Espacio para el ícono */
+        }
+
+        /* Estilos para los radios */
+        .radio-container {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .radio-option {
+            line-height: 1rem;
+            min-height: 1rem;
+            padding-left: 0;
+            overflow: hidden;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .radio-input {
+            position: absolute;
+            left: 0;
+            z-index: -1;
+            width: 1rem;
+            height: 1.25rem;
+            opacity: 0;
+        }
+
+        .radio-label {
+            cursor: pointer;
+            color: var(--text, #202e44);
+            font-family: 'Flexo-Regular', Helvetica, Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            padding-left: 32px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 3100;
+        }
+
+        .radio-label.margin-bottom {
+            margin-bottom: .5rem;
+        }
+
+        .radio-label span {
+            position: relative;
+            top: 4px;
+        }
+
+        .check {
+            display: block;
+            position: absolute;
+            background-color: #fff;
+            border-radius: 100%;
+            height: 16px;
+            width: 16px;
+            top: 8px;
+            left: 0;
+            z-index: 3000;
+            transition: all 200ms ease-in-out;
+            border: 2px solid var(--onsurface-300, #bfc4cc);
+        }
+
+        .check::before {
+            display: none;
+        }
+
+        /* Estilos dinámicos basados en el estado 'checked' */
+        .radio-input:checked + .radio-label + .check {
+            border-color: var(--secondary-500, #ff7800);
+        }
+
+        .radio-input:checked + .radio-label + .check::before {
+            background: var(--secondary-500, #ff7800);
+            display: block;
+            position: absolute;
+            content: "";
+            border-radius: 50%;
+            height: 6px;
+            width: 6px;
+            top: calc(50% - 3px);
+            left: calc(50% - 3px);
+            margin: auto;
+            transition: all 200ms ease-in-out;
+        }
+
+              /* Barra de progreso */
+        .progress-bar {
+           position: absolute;
+    top: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+        }
+
+        .progress {
+            width: 66%; /* Indica que está en el paso 2 de 3 */
+            height: 100%;
+            background-color: #ff7800;
+        }
+
+
+        /* Estilos para el contenedor derecho */
+        .right-container {
+           width: 67%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    position: relative;
+        }
+
+        .form-container {
+            width: 80%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .title-container {
+            text-align: center !important;
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: 100%;
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            margin-bottom: 0;
+            display: inherit;
+            font-family: 'Flexo-Bold', Helvetica, Arial, sans-serif;
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--primary-700, #002a8d);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            line-height: 1.5rem;
+            color: #202e44;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Flexo-Regular', Helvetica, Arial, sans-serif;
+        }
+         /* Estilos del input de código token */
+        .token-input {
+            position: relative;
+            padding-top: 6px;
+            margin-bottom: 20px;
+        }
+
+        .token-input input {
+            position: relative;
+            color: #202e44;
+            border: 1px solid #868f9e;
+            border-radius: 8px;
+            box-shadow: none;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            height: 60px;
+            padding: 11px 15px;
+            width: 100%;
+            outline: 0;
+            text-align: center;
+            letter-spacing: 10px;
+            caret-color: #202e44;
+            transition: all .2s ease-in-out;
+            font-family: 'Flexo-Regular', Helvetica, Arial, sans-serif;
+        }
+
+        .token-input p {
+            background-color: #fff;
+            padding: 0 5px;
+            transform: translateY(-50%);
+            position: absolute;
+            top: 7px;
+            left: 10px;
+            user-select: none;
+            pointer-events: none;
+            font-size: 0.75rem;
+            line-height: 1.125rem;
+            color: #99a1ad;
+        }
+
+        /* Mensaje de error */
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-bottom: 20px;
+            display: none; /* Mostrar con JavaScript si es necesario */
+            text-align: center;
+        }
+         /* Sección de ayuda */
+        .help-section {
+            margin-top: 30px;
+            font-size: 0.875rem;
+            color: #202e44;
+            font-family: 'Flexo-Regular', Helvetica, Arial, sans-serif;
+        }
+
+        .help-section p {
+            margin-bottom: 10px;
+        }
+
+
+        .input-group {
+            display: flex;
+            width: 100%;
+            margin-bottom: 20px;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+        }
+
+        .input-select {
+            height: 48px;
+            border: 1px solid var(--onsurface-600, #868f9e);
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            padding: 11px 15px;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+            width: 30%;
+        }
+
+        .input-text {
+            flex: 1;
+            border: 1px solid var(--onsurface-600, #868f9e);
+            font-size: 1rem;
+            line-height: 1.5rem;
+            height: 48px;
+            padding: 11px 15px;
+            outline: 0;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+        }
+
+        .input-field {
+            position: relative;
+            padding-top: 6px;
+            margin-bottom: 20px;
+        }
+
+        .input-field input {
+            position: relative;
+            color: var(--text, #202e44);
+            border: 1px solid var(--onsurface-600, #868f9e);
+            border-radius: 8px;
+            box-shadow: none;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            height: 48px;
+            padding: 11px 15px;
+            width: 100%;
+            outline: 0;
+            caret-color: var(--text, #202e44);
+            transition: all .2s ease-in-out;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+        }
+
+        .input-field p {
+            background-color: #fff;
+            padding: 0 5px;
+            transform: translateY(-50%);
+            position: absolute;
+            top: 7px;
+            left: 10px;
+            user-select: none;
+            pointer-events: none;
+            font-size: 0.75rem;
+            line-height: 1.125rem;
+            color: #99a1ad;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .link-text {
+            position: relative;
+            line-height: 32px;
+            font-size: 0.875rem;
+            color: #ff7800;
+            cursor: pointer;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+        }
+
+        /* Estilos del captcha */
+        .captcha-group {
+            display: flex;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #captcha {
+            border: 1px solid var(--onsurface-600, #868f9e);
+            border-radius: 8px 0 0 8px;
+            width: 120px;
+            height: 48px;
+        }
+
+        .captcha-input {
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+            border: 1px solid var(--onsurface-600, #868f9e);
+            font-size: 1rem;
+            line-height: 1.5rem;
+            height: 48px;
+            padding: 11px 15px;
+            outline: 0;
+            width: calc(100% - 120px);
+            border-radius: 0 8px 8px 0;
+        }
+
+        #cambiarCodigo {
+            margin-bottom: 20px;
+            position: relative;
+            line-height: 32px;
+            font-size: 0.875rem;
+            color: #ff7800;
+            cursor: pointer;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+        }
+
+        /* Estilos del botón */
+        button {
+            color: #fff;
+            background-color: #ff7800;
+            background-image: none;
+            border-color: #ff7800;
+            height: 40px;
+            border-radius: 20px;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            transition: all 200ms ease-in-out;
+            width: 100%;
+            padding: 0 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            font-family: 'Flexo-Demi', Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e69500;
+        }
+
+        /* Estilos para dispositivos móviles */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .left-container {
+                width: 100%;
+                height: 90px;
+                padding: 20px 0;
+                background-color: var(--primary-700, #002a8d);
+                background-image: none;
+                align-items: center;
+            }
+              .token-input input {
+                letter-spacing: 5px;
+            }
+
+            .logo-container {
+                margin: 0;
+                text-align: center;
+            }
+
+            .logo-container img {
+                width: 150px;
+                height: auto;
+            }
+
+            .right-container {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .form-container {
+                width: 100%;
+                max-width: none;
+            }
+
+            .radio-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .radio-option {
+                width: 48%;
+            }
+
+            .input-group {
+                flex-direction: row;
+            }
+
+            .input-select {
+                width: 30%;
+                border-radius: 8px 0 0 8px;
+            }
+
+            .input-text {
+                width: 70%;
+                border-radius: 0 8px 8px 0;
+            }
+            .progress-bar {
+                display: none;
+            }
+
+            .captcha-group {
+                flex-direction: row;
+            }
+
+            #captcha {
+                width: 120px;
+                border-radius: 8px 0 0 8px;
+            }
+
+            .captcha-input {
+                width: calc(100% - 120px);
+                border-radius: 0 8px 8px 0;
+            }
+        }
+
+        /* Estilos para la pantalla de carga */
+        #dynamic-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0, 42, 141);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #dynamic-loading-overlay .spinner {
+            border: solid 3px #002473;
+            border-top: solid 3px #ff7800;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            animation: girar 1s infinite linear;
+            position: relative;
+            display: flex; /* Usar flex para posicionar el logo */
+            align-items: center;
+            justify-content: center;
+        }
+
+        #dynamic-loading-overlay .logo {
+            width: 32px;
+            height: 32px;
+            position: absolute; /* Posicionar el logo de forma absoluta para que no herede la rotación */
+            top: 1;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #dynamic-loading-overlay .loading-text {
+            color: white;
+            font-size: 12px;
+            font-family: 'Flexo-Regular', Arial, Helvetica, sans-serif;
+        }
+
+        @keyframes girar {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
